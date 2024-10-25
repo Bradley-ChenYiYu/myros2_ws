@@ -1,0 +1,25 @@
+<launch>
+        <include file="$(find-pkg-share rtabmap_launch)/launch/rtabmap.launch.py">
+          <arg name="odom_frame_id" value="odom"/>
+          <arg name="approx_sync" value="true"/> <!-- true -->
+          <arg name="rgb_topic" value="/camera/camera/color/image_raw"/>
+          <arg name="depth_topic" value="/camera/camera/aligned_depth_to_color/image_raw"/>
+          <arg name="camera_info_topic" value="/camera/camera/color/camera_info"/>
+          <arg name="subscribe_scan" value="true"/>
+          <arg name="visual_odometry" value="false"/>
+          <arg name="odom_topic" value="/odom"/>
+          <arg name="rtabmap_args" value="-d"/>
+          <arg name="rtabmap_viz" value="true"/>
+          <arg name="rviz" value="true"/>
+          <!-- https://github.com/introlab/rtabmap_ros/<launch>issues/914 -->
+          <!-- <arg name="approx_sync" value="false"/>  --> <!-- cannot use exact sync with external odom -->
+          <!-- <arg name="publish_tf_odom" value="false"/> --> <!-- to avoid conflicts with robot_localization odom tf -->
+          <!--<arg name="subscribe_odom_info" value="false"/> --><!-- external odom used --> 
+          <!-- Try to fix dropping info -->
+          <!-- <arg name="subscribe_depth" value="false"/> -->
+        </include>
+        <node pkg="rtabmap_slam" exec="rtabmap" name="rtabmap" output="screen">
+          <param name="Rtabmap/DetectionRate" type="str" value="10"/> <!-- Rate (Hz) at which new nodes are added to map -->
+
+        </node>
+      </launch>

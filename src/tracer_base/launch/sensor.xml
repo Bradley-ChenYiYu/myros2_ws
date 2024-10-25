@@ -1,0 +1,16 @@
+<launch>
+        <include file="$(find-pkg-share tracer_base)/launch/tracer_base.launch.py"/>
+        <include file="$(find-pkg-share rplidar_ros)/launch/rplidar_a3_launch.py"/>
+        <include file="$(find-pkg-share realsense2_camera)/launch/rs_launch.py">
+          <arg name="initial_reset" value="true"/>
+          <arg name="align_depth.enable" value="true"/>
+          <arg name="rgb_camera.color_profile" value="1920,1080,30"/>
+          <arg name="depth_module.depth_profile" value="640, 480, 30"/> <!-- value="1280,720,30" -->
+          <!-- <arg name="enable_depth" value="false"/> -->
+      
+        </include>
+        <node pkg="tf2_ros" exec="static_transform_publisher" name="baselink_to_camera" args="0.25 0 0.69 0 0 0 /base_link /camera_link">
+        </node>
+        <node pkg="tf2_ros" exec="static_transform_publisher" name="baselink_to_laser" args="0.0 0.0 0.02 -3.14 0.0 0.0 /base_link /laser">
+        </node>
+      </launch>
